@@ -77,35 +77,27 @@ async function getLastSeenRecipes(user_name){
 }
 
 async function addLastSeenRecipes(user_name, Recipe){
-    console.log("~~~~ IN SERVER FUNCTION ADDING RECIPE TO LAST SEEN~~~~~")
     try{
         let listOfRecipes = await DButils.execQuery(`SELECT * FROM lastseenrecipes WHERE user_name='${user_name}'`);
         if(listOfRecipes.length === 0){
-            console.log("new user in system")
             await DButils.execQuery(`INSERT INTO lastseenrecipes VALUES ('${user_name}', '${null}','${null}','${Recipe}')`);
         }
         else{
             if(Recipe.toString() === listOfRecipes[0].first_recipe || Recipe.toString() === listOfRecipes[0].second_recipe || Recipe.toString() === listOfRecipes[0].third_recipe){
-                console.log("Recipe is already in recentley viewed")
             }
             else if(listOfRecipes[0].first_recipe === 'null'){
-                console.log("has zero recipes")
                 await DButils.execQuery(`UPDATE lastseenrecipes SET first_recipe = '${Recipe}' WHERE user_name = '${user_name}'`);
             }
             else if(listOfRecipes[0].first_recipe !== 'null' && listOfRecipes[0].second_recipe === 'null'){
-                console.log("has one recipe")
                 await DButils.execQuery(`UPDATE lastseenrecipes SET second_recipe = '${Recipe}' WHERE user_name = '${user_name}'`);
             }
             else if(listOfRecipes[0].second_recipe !== 'null' && listOfRecipes[0].third_recipe === 'null'){
-                console.log("has two recipes")
                 await DButils.execQuery(`UPDATE lastseenrecipes SET third_recipe = '${Recipe}' WHERE user_name = '${user_name}'`);
             }
             else{
-                console.log("has three recipes")
                 await DButils.execQuery(`UPDATE lastseenrecipes SET first_recipe = '${listOfRecipes[0].second_recipe}', second_recipe = '${listOfRecipes[0].third_recipe}',third_recipe = '${Recipe}' WHERE user_name = '${user_name}'`);
             }
         }
-        console.log("~~~~~DONE ADDING~~~~~~~")
     }
     catch(err){
         throw { status: 400, message: "Couldn't add recipe to recentley seen" };
