@@ -85,7 +85,6 @@ router.post("/family", async (req, res, next) =>{
 router.get("/myRecipes", async (req, res, next) => {
   try {
     const results = await user_utils.getUserRecipes(req.session.user_id);
-    console.log(results)
 
     res.status(200).send(results);
   } catch (error) {
@@ -131,7 +130,6 @@ router.get("/lastSeenRecipes", async (req, res, next) =>{
 // adds a recipe to last three seen recipes (id's) by the user
 router.post("/lastSeenRecipes", async (req, res, next) =>{
   try {
-    console.log("req:"+req)
     const user_name = req.session.user_id
     const recipe_id = req.body.recipe_id
     await user_utils.addLastSeenRecipes(user_name, recipe_id);

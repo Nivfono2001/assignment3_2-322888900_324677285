@@ -49,12 +49,7 @@ async function addFamilyRecipeToDb(user_name, recipe_id, owner, when_to_cook, in
 // Recentley viewed recipes
 async function getLastSeenRecipes(user_name){
     try{
-        console.log("in server function")
-        let listOfRecipes = await DButils.execQuery(`SELECT * FROM lastseenrecipes WHERE user_name='${user_name}'`);
-        console.log("the recipes are:")
-        console.log(listOfRecipes)
-        console.log("length of response is:")
-        console.log(listOfRecipes.length)
+        let listOfRecipes = await DButils.execQuery(`SELECT * FROM lastseenrecipes WHERE user_name='${user_name}'`);       
         let response_body = {}
         response_body.FirstRecipe = null
         response_body.SecondRecipe = null
@@ -72,8 +67,6 @@ async function getLastSeenRecipes(user_name){
                 let full_third_recipe = await recipes_utils.getRecipeDetails(listOfRecipes[0].third_recipe, false, false)
                 response_body.ThirdRecipe = full_third_recipe 
             }
-            console.log("response is:")
-            console.log(response_body)
             return response_body
         }
         return response_body
