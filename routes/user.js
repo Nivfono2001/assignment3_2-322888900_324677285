@@ -30,7 +30,6 @@ router.get("/favorites", async (req, res, next) => {
     const user_name = req.session.user_id;
     const recipes_id = await user_utils.getFavoriteRecipes(user_name);  
     recipes_data_list = await push_recipe_data_to_list(recipes_id)
-    console.log(recipes_data_list)
     res.status(200).send(recipes_data_list);
   } catch (error) {
     next(error);

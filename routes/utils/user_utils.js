@@ -123,7 +123,6 @@ async function getUserRecipes(user_name){
         throw { status: 401, message: err };
     }
 }
-
 exports.addLastSeenRecipes=addLastSeenRecipes;
 exports.getLastSeenRecipes=getLastSeenRecipes;
 exports.markAsFavorite = markAsFavorite;
